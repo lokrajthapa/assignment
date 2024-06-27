@@ -3,6 +3,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\UserJobController;
+
 
 // Open Routes
 Route::post("register",[UserController::class,"register"]);
@@ -14,6 +16,12 @@ Route::group([
 ], function(){
   Route::get("profile",[UserController::class,"profile"]);
   Route::get("logout",[UserController::class,"logout"]);
+
+  //jobs
+  Route::post('jobs', [UserJobController::class, 'store']);
+  Route::get('/jobs', [UserJobController::class, 'index']);
+  Route::put('/job/{job}', [UserJobController::class, 'update']);
+  Route::delete('/job/{job}', [UserJobController::class, 'destroy']);
 });
 
 
