@@ -28,13 +28,32 @@ class UserJobController extends Controller
         return response()->json($job, 201);
     }
 
-    public function index()
+    public function index(Request $request)
     {
         //exporting from relation
-         $userJobs = auth()->user()->userJobs;
+        // $userJobs = auth()->user()->userJobs;
 
-        return response()->json(["jobs"=>$userJobs]);
+        $query = UserJob::query();
+
+        if ($request->has('keywords')) {
+            $keywords = $request->input('keywords');
+            $query->where(function ($q) use ($keywords) {
+                $q->where('location', 'LIKE', "%{$keywords}%")
+                  ->orWhere('company', 'LIKE', "%{$keywords}%");
+            });
+        }
+        $userJobs = $query->paginate(10);
+
+        return response()->json($userJobs, 200);
     }
+
+
+
+
+
+
+       // return response()->json(["jobs"=>$userJobs]);
+
 
     public function update(Request $request, UserJob $userJob)
     {
