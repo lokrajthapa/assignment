@@ -5,10 +5,12 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\UserJob;
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Support\Facades\Gate;
 
 class UserJobController extends Controller
 {
+
+
     public function store(Request $request)
     {
         $request->validate([
@@ -19,9 +21,9 @@ class UserJobController extends Controller
             'application_instructions' => 'required|string',
         ]);
 
-        $job = new UserJob($request->all());
-        $job->user_id = auth()->user()->id;
-        $job->save();
+        $userJob = new UserJob($request->all());
+        $userJob->user_id = auth()->user()->id;
+        $userJob->save();
 
         return response()->json($job, 201);
     }
@@ -29,14 +31,15 @@ class UserJobController extends Controller
     public function index()
     {
         //exporting from relation
-         $jobs = auth()->user()->userJobs;
+         $userJobs = auth()->user()->userJobs;
 
-        return response()->json(["jobs"=>$jobs]);
+        return response()->json(["jobs"=>$userJobs]);
     }
 
     public function update(Request $request, UserJob $userJob)
     {
-        $this->authorize('update', $userJob);
+
+        Gate::authorize('update', $userJob);
 
         $request->validate([
             'title' => 'sometimes|required|string|max:255',
@@ -46,16 +49,18 @@ class UserJobController extends Controller
             'application_instructions' => 'sometimes|required|string',
         ]);
 
+
         $userJob->update($request->all());
 
         return response()->json($userJob, 200);
     }
 
-    public function destroy(UserJob $job)
+    public function destroy(UserJob $userJob)
     {
-        $this->authorize('delete', $job);
 
-        $job->delete();
+        Gate::authorize('delete', $userJob);
+
+        $userJob->delete();
 
         return response()->json(null, 204);
     }

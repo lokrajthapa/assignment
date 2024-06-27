@@ -20,8 +20,8 @@ Route::group([
   //jobs
   Route::post('jobs', [UserJobController::class, 'store']);
   Route::get('/jobs', [UserJobController::class, 'index']);
-  Route::put('/job/{job}', [UserJobController::class, 'update']);
-  Route::delete('/job/{job}', [UserJobController::class, 'destroy']);
+  Route::put('/job/{userJob}', [UserJobController::class, 'update']);
+  Route::delete('/job/{userJob}', [UserJobController::class, 'destroy']);
 });
 
 

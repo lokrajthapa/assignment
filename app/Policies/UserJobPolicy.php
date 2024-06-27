@@ -6,8 +6,10 @@ use Illuminate\Auth\Access\Response;
 use App\Models\UserJob;
 use App\Models\User;
 
-class JobPolicy
+
+class UserJobPolicy
 {
+
     /**
      * Determine whether the user can view any models.
      */
@@ -37,8 +39,8 @@ class JobPolicy
      */
     public function update(User $user, UserJob $userJob): bool
     {
-        return $user->id === $userJob->user_id ? Response::allow()
-        : Response::deny('You do not own this job.');
+
+     return $user->id === $userJob->user_id;
     }
 
     /**
@@ -46,8 +48,7 @@ class JobPolicy
      */
     public function delete(User $user, UserJob $userJob): bool
     {
-        return $user->id === $userJob->user_id ? Response::allow()
-        : Response::deny('You do not own this job.');
+        return $user->id === $userJob->user_id;
     }
 
     /**
