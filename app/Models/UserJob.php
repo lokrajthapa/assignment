@@ -18,10 +18,11 @@ class UserJob extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function authorize($ability, $arguments = [])
-    {
-        return Auth::user()->can($ability, $this);
-    }
+
+    // public function authorize($ability, $arguments = [])
+    // {
+    //     return Auth::user()->can($ability, $this);
+    // }
 
 
 

@@ -31,18 +31,19 @@ class UserJobController extends Controller
     public function index(Request $request)
     {
         //exporting from relation
-        // $userJobs = auth()->user()->userJobs;
+         $userJobs = auth()->user()->userJobs;
 
-        $query = UserJob::query();
+        // $query = UserJob::query();
 
-        if ($request->has('keywords')) {
-            $keywords = $request->input('keywords');
-            $query->where(function ($q) use ($keywords) {
-                $q->where('location', 'LIKE', "%{$keywords}%")
-                  ->orWhere('company', 'LIKE', "%{$keywords}%");
-            });
-        }
-        $userJobs = $query->paginate(10);
+        // if ($request->has('keywords')) {
+        //     $keywords = $request->input('keywords');
+        //     $query->where(function ($q) use ($keywords) {
+        //         $q->where('location', 'LIKE', "%{$keywords}%")
+        //           ->orWhere('company', 'LIKE', "%{$keywords}%");
+        //     });
+        // }
+
+        // $userJobs = $query->paginate(10);
 
         return response()->json($userJobs, 200);
     }
@@ -52,7 +53,7 @@ class UserJobController extends Controller
 
 
 
-       // return response()->json(["jobs"=>$userJobs]);
+
 
 
     public function update(Request $request, UserJob $userJob)
@@ -82,6 +83,51 @@ class UserJobController extends Controller
         $userJob->delete();
 
         return response()->json(null, 204);
+    }
+
+    public function alljobs(){
+
+
+        $query = UserJob::query();
+
+        if ($request->has('keywords')) {
+            $keywords = $request->input('keywords');
+            $query->where(function ($q) use ($keywords) {
+                $q->where('location', 'LIKE', "%{$keywords}%")
+                  ->orWhere('company', 'LIKE', "%{$keywords}%")
+                  ->orWhere('status','approved');
+
+            });
+        }
+
+        $userJobs = $query->paginate(10);
+
+        return response()->json($userJobs, 200);
+
+    }
+
+    public function jobSubmissions(){
+
+        $allUserJobs = UserJob::all()->get();
+        return response()->json($allUserJobs, 200);
+
+    }
+
+    public function updateJobStatus(Request $request, UserJob $userJob)
+    {
+        $isAdmin=auth()->user()->role;
+        if($isAdmin==='admin')
+        {
+
+            $request->validate([
+                'status' => 'required|string|max:255',
+            ]);
+
+            $userJob->update( ['status'=> $request->status]);
+
+
+        }
+
     }
 
 

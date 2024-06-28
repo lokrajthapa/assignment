@@ -10,6 +10,12 @@ use App\Http\Controllers\Api\UserJobController;
 Route::post("register",[UserController::class,"register"]);
 Route::post("login",[UserController::class,"login"]);
 
+//job search for all user
+Route::get('/alljobs', [UserJobController::class, 'alljobs']);
+
+
+
+
 //protected middlewire
 Route::group([
 "middleware"=>["auth:api"]
@@ -22,6 +28,19 @@ Route::group([
   Route::get('/jobs', [UserJobController::class, 'index']);
   Route::put('/job/{userJob}', [UserJobController::class, 'update']);
   Route::delete('/job/{userJob}', [UserJobController::class, 'destroy']);
+
+  //for all submission job and approval
+   Route::get('/allJobSubmissions', [UserJobController::class, 'jobSubmissions']);
+   Route::put('/updateJobStatus',[UserJobController::class, 'gi']);
+
+
+
+
+
+
+
+
+
 });
 
 
@@ -30,3 +49,7 @@ Route::group([
 // Route::get('/user', function (Request $request) {
 //     return $request->user();
 // })->middleware('auth:api');
+
+// Route::get('/testing',function(){
+//     return view('testing');
+// });

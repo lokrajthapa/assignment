@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('location');
             $table->text('description');
             $table->text('application_instructions');
+            $table->string('status')->nullable();
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 
