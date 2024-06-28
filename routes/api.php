@@ -31,17 +31,16 @@ Route::group([
 
   //for all submission job and approval
    Route::get('/allJobSubmissions', [UserJobController::class, 'jobSubmissions']);
-   Route::put('/updateJobStatus',[UserJobController::class, 'gi']);
+   Route::put('/updateJobStatus',[UserJobController::class, 'updateJobStatus']);
 
-
-
-
-
-
-
+   //for job seeker
+//    Route::post('/submitApplication',[]);
 
 
 });
+
+
+
 
 
 

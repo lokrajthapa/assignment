@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\UserJob;
 use Illuminate\Support\Facades\Gate;
+use App\Notifications\UserJobUpdated;
 
 class UserJobController extends Controller
 {
@@ -124,8 +125,14 @@ class UserJobController extends Controller
             ]);
 
             $userJob->update( ['status'=> $request->status]);
+            $user = $userJob->user;
+            $user->notify((new UserJobUpdated($userJob))->delay(now()->addMinutes(10)));
+            return response()->json($userJob, 200);
+        }
+        else
+        {
 
-
+            return response()->json(['you are not allow to update']);
         }
 
     }
