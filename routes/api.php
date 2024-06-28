@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\UserJobController;
+use App\Http\Controllers\Api\ApplicationController;
 
 
 // Open Routes
@@ -34,8 +35,7 @@ Route::group([
    Route::put('/updateJobStatus',[UserJobController::class, 'updateJobStatus']);
 
    //for job seeker
-//    Route::post('/submitApplication',[]);
-
+    Route::post('/submitApplication',[ApplicationController::class,'store']);
 
 });
 

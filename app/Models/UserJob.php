@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Application;
 
 class UserJob extends Model
 {
@@ -24,6 +25,10 @@ class UserJob extends Model
     //     return Auth::user()->can($ability, $this);
     // }
 
+    public function applications()
+    {
+        return $this->hasMany(Application::class);
+    }
 
 
 }

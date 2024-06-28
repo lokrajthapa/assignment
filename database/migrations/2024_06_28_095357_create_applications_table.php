@@ -13,7 +13,14 @@ return new class extends Migration
     {
         Schema::create('applications', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_job_id');
+            $table->string('title');
+            $table->text('description');
+            $table->string('resume');
+            $table->string('cover_letter');
             $table->timestamps();
+             // Define the foreign key constraint
+             $table->foreign('user_job_id')->references('id')->on('user_jobs')->onDelete('cascade');
         });
     }
 
