@@ -8,10 +8,10 @@ use App\Http\Controllers\Api\ApplicationController;
 
 
 // Open Routes
-Route::post("register",[UserController::class,"register"]);
-Route::post("login",[UserController::class,"login"]);
+Route::post("register",[UserController::class,"register"])->name('user.register');
+Route::post("login",[UserController::class,"login"])->name('user.login');
 
-//job search for all user
+//job search for all user //  testdone
 Route::get('/alljobs', [UserJobController::class, 'alljobs']);
 
 
@@ -21,21 +21,24 @@ Route::get('/alljobs', [UserJobController::class, 'alljobs']);
 Route::group([
 "middleware"=>["auth:api"]
 ], function(){
-  Route::get("profile",[UserController::class,"profile"]);
-  Route::get("logout",[UserController::class,"logout"]);
+//   Route::get("profile",[UserController::class,"profile"]);
+  Route::get("logout",[UserController::class,"logout"])->name('user.logout');
 
-  //jobs
-  Route::post('jobs', [UserJobController::class, 'store']);
-  Route::get('/jobs', [UserJobController::class, 'index']);
-  Route::put('/job/{userJob}', [UserJobController::class, 'update']);
-  Route::delete('/job/{userJob}', [UserJobController::class, 'destroy']);
+  //jobs   //test done
+  Route::post('jobs', [UserJobController::class, 'store'])->name('jobs.store');
+  Route::get('/jobs', [UserJobController::class, 'index'])->name('jobs.index');
+  Route::put('/job/{userJob}', [UserJobController::class, 'update'])->name('job.update');
+  Route::delete('/job/{userJob}', [UserJobController::class, 'destroy'])->name('job.delete');
 
   //for all submission job and approval
-   Route::get('/allJobSubmissions', [UserJobController::class, 'jobSubmissions']);
-   Route::put('/updateJobStatus',[UserJobController::class, 'updateJobStatus']);
+   Route::get('/allJobSubmissions', [UserJobController::class, 'jobSubmissions'])->name('allsubmittedJob');
+   Route::put('/updateJobStatus/{userJob}',[UserJobController::class, 'updateJobStatus'])->name('updateJobStatus');
 
-   //for job seeker
-    Route::post('/submitApplication',[ApplicationController::class,'store']);
+
+   //for job seeker   //testdone
+    Route::post('/submitApplication',[ApplicationController::class,'store'])->name('submitJobApplication');
+
+
 
 });
 

@@ -11,11 +11,12 @@ use App\Models\Application;
 class JobApplicationSubmitted extends Notification
 {
     use Queueable;
-    protected $jobApplication;
+     protected $jobApplication;
 
     /**
      * Create a new notification instance.
      */
+
     public function __construct(Application $jobApplication)
     {
         $this->jobApplication= $jobApplication;
@@ -38,7 +39,7 @@ class JobApplicationSubmitted extends Notification
     {
         return (new MailMessage)
                      ->subject('Job Application Appeared')
-                     ->line('The Application titled "' . $this->jobApplication->title . '" has been updated.')
+                     ->line('The Application   has been recievied.')
                     ->line('Thank you for using our application!');
     }
 
@@ -49,7 +50,9 @@ class JobApplicationSubmitted extends Notification
      */
     public function toArray(object $notifiable): array
     {
+
         return [
+            'user_job_id'=>$this->jobApplication->user_job_id,
             'title' => $this->jobApplication->title,
             'description' => $this->jobApplication->description,
             'resume' => $this->jobApplication->resume,

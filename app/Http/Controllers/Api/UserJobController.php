@@ -33,19 +33,6 @@ class UserJobController extends Controller
     {
         //exporting from relation
          $userJobs = auth()->user()->userJobs;
-
-        // $query = UserJob::query();
-
-        // if ($request->has('keywords')) {
-        //     $keywords = $request->input('keywords');
-        //     $query->where(function ($q) use ($keywords) {
-        //         $q->where('location', 'LIKE', "%{$keywords}%")
-        //           ->orWhere('company', 'LIKE', "%{$keywords}%");
-        //     });
-        // }
-
-        // $userJobs = $query->paginate(10);
-
         return response()->json($userJobs, 200);
     }
 
@@ -59,6 +46,8 @@ class UserJobController extends Controller
 
     public function update(Request $request, UserJob $userJob)
     {
+
+
 
         Gate::authorize('update', $userJob);
 
@@ -83,12 +72,10 @@ class UserJobController extends Controller
 
         $userJob->delete();
 
-        return response()->json(null, 204);
+        return response()->json(null);
     }
 
-    public function alljobs(){
-
-
+    public function alljobs(Request $request ){
         $query = UserJob::query();
 
         if ($request->has('keywords')) {
@@ -109,14 +96,23 @@ class UserJobController extends Controller
 
     public function jobSubmissions(){
 
-        $allUserJobs = UserJob::all()->get();
+         $user = auth()->user()->role;
+      if( $user = auth()->user()->role==='admin' )
+      {
+        $allUserJobs = UserJob::all();
         return response()->json($allUserJobs, 200);
+      }
+      else{
+        return response()->json(['message'=>'oops you are not allowed']);
+      }
+
 
     }
 
     public function updateJobStatus(Request $request, UserJob $userJob)
     {
         $isAdmin=auth()->user()->role;
+
         if($isAdmin==='admin')
         {
 

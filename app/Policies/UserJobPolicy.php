@@ -66,4 +66,9 @@ class UserJobPolicy
     {
         //
     }
+
+    // public function jobSubmissions(User $user, UserJob $userJob): bool
+    // {
+
+    // }
 }
