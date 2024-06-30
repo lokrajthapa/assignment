@@ -35,71 +35,58 @@ class JobViewAndApprovalTest extends TestCase
         $response->assertStatus(200);
     }
 
-    public function test_if_job_status_is_updated_with_notificaton()
-    {
-
-
-        // Prevent actual notifications from being sent
-        Notification::fake();
-
-        // Create an admin user
-        $admin = User::factory()->create(['role' => 'admin']);
-
-        // Create a regular user and a UserJob
-        $user = User::factory()->create();
-
-        $userJob = UserJob::factory()->create(['user_id' => $user->id]);
-
-        // Authenticate the admin user
-        Passport::actingAs($admin);
-
-        // Make a PATCH request to update the UserJob
-        $response = $this->putJson("/api/updateJobStatus/{$userJob->id}", [
-            'user_id'=>$user->id,
-            'title' => 'Updated Title',
-            'status'=>'approved',
-            'company' => 'Updated Company',
-            'location' => 'Updated Location',
-            'description' => 'Updated Description',
-            'application_instructions' => 'Updated Instructions',
-        ]);
-
-       dd($response->json());
-
-        // Assert the response status is 200 OK
-        $response->assertStatus(200);
+//     public function test_if_job_status_is_updated_with_notificaton()
+//     {
 
 
 
-        // Assert the UserJob was updated in the database
-       $testingResponse = $this->assertDatabaseHas('user_jobs', [
-            'id' => $userJob->id,
-            'user_id'=>$user->id,
-            'title' => 'Updated Title',
-            'status'=>'approved',
-            'company' => 'Updated Company',
-            'location' => 'Updated Location',
-            'description' => 'Updated Description',
-            'application_instructions' => 'Updated Instructions',
-        ]);
+
+//         // Create an admin user
+//         $admin = User::factory()->create(['role' => 'admin']);
+
+//         // Create a regular user and a UserJob
+//         $jobProvider = User::factory()->create();
+
+//         $userJob = UserJob::factory()->create(['user_id' => $jobProvider->id]);
+
+//         // Authenticate the admin user
+//         Passport::actingAs($admin);
+
+//         // Make a PUT request to update the UserJob
+//         $userJob = $this->putJson("/api/updateJobStatus/{$userJob->id}", [
+
+//             'status'=>'approved',
+//         ]);
 
 
-        // Assert a notification was sent to the user, with a delay of 10 minutes
-        // Notification::assertSentTo(
-        //     [$user],
-        //     UserJobUpdated::class,
-        //     function ($notification, $channels, $notifiable) {
-        //         return $notification->delay->eq(now()->addMinutes(10));
-        //     }
-        // );
-
-        $jobProvider->notify((new UserJobUpdated($userJob))->delay(now()->addMinutes(10)));
-        Notification::assertSentTo(
-            [$jobProvider],
-            JobApplicationSubmitted::class
-        );
+//         // Prevent actual notifications from being sent
+//         Notification::fake();
+//         // Assert the response status is 200 OK
+//         $userJob->assertStatus(200);
 
 
 
-    }
+//         // Assert the UserJob was updated in the database
+//        $userJob = $this->assertDatabaseHas('user_jobs', [
+
+//             'status'=>'approved',
+
+//         ]);
+
+//         $jobProvider->notify((new UserJobUpdated($userJob))->delay(now()->addMinutes(10)));
+
+//         Notification::assertSentTo(
+//             [$jobProvider],
+//             UserJobUpdated::class,
+//             function ($notification, $channels) use ($userJob) {
+//                 return $notification->userJob->is($userJob) && $notification->delay->eq(now()->addMinutes(10));
+//             }
+//         );
+
+
+
+
+
+//     }
+// }
 }

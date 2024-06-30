@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 use App\Models\UserJob;
 use Illuminate\Support\Facades\Gate;
 use App\Notifications\UserJobUpdated;
+use App\Http\Resources\UserJobResource;
+
+
 
 class UserJobController extends Controller
 {
@@ -123,7 +126,7 @@ class UserJobController extends Controller
             $userJob->update( ['status'=> $request->status]);
             $user = $userJob->user;
             $user->notify((new UserJobUpdated($userJob))->delay(now()->addMinutes(10)));
-            return response()->json($userJob, 200);
+            return new UserJobResource($userJob);
         }
         else
         {

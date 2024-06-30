@@ -12,15 +12,19 @@ class UserJobUpdated extends Notification
 {
     use Queueable;
 
-    protected $userJob;
+    public  $userJob;
 
     /**
      * Create a new notification instance.
      */
     public function __construct(UserJob $userJob)
     {
+
        $this->userJob= $userJob;
+
     }
+
+
 
     /**
      * Get the notification's delivery channels.
@@ -37,8 +41,10 @@ class UserJobUpdated extends Notification
      */
     public function toMail(object $notifiable): MailMessage
     {
+
+
         return (new MailMessage)->subject('UserJob is  Updated')
-                    ->line('Your Job is "' . $this->userJob->status )
+                    ->line("Your Job is " .$this->userJob->status)
                     ->action('Notification Action', url('/'))
                     ->line('Thank you for using our application!');
     }
@@ -54,5 +60,15 @@ class UserJobUpdated extends Notification
 
             'status'=>$this->userJob->status
         ];
+    }
+
+     /**
+     * Get the user job instance.
+     *
+     * @return UserJob
+     */
+    public function getUserJob()
+    {
+        return $this->userJob;
     }
 }

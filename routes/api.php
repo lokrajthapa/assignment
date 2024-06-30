@@ -34,7 +34,6 @@ Route::group([
    Route::get('/allJobSubmissions', [UserJobController::class, 'jobSubmissions'])->name('allsubmittedJob');
    Route::put('/updateJobStatus/{userJob}',[UserJobController::class, 'updateJobStatus'])->name('updateJobStatus');
 
-
    //for job seeker   //testdone
     Route::post('/submitApplication',[ApplicationController::class,'store'])->name('submitJobApplication');
 

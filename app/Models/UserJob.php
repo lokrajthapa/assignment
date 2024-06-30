@@ -11,7 +11,7 @@ class UserJob extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user_id', 'title', 'company', 'location', 'description', 'application_instructions'
+        'user_id', 'title', 'company', 'location','status','role', 'description', 'application_instructions'
     ];
 
     public function user()
@@ -20,10 +20,7 @@ class UserJob extends Model
     }
 
 
-    // public function authorize($ability, $arguments = [])
-    // {
-    //     return Auth::user()->can($ability, $this);
-    // }
+
 
     public function applications()
     {

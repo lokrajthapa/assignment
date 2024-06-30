@@ -17,7 +17,7 @@ class UserJobFactory extends Factory
     public function definition(): array
     {
         $statuses = ['rejected', 'approved'];
-         $userId=User::inRandomOrder()->first()->id;
+        $userId=User::inRandomOrder()->first()->id;
         return [
             'user_id' => $userId,
             'title' => $this->faker->jobTitle,
