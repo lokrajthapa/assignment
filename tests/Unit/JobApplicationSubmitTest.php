@@ -8,13 +8,15 @@ use App\Models\Application;
 use App\Notifications\JobApplicationSubmitted;
 use Tests\TestCase;
 use App\Models\UserJob;
+use App\Models\User;
 use Illuminate\Support\Facades\Notification;
 
 
 class JobApplicationSubmitTest extends TestCase
 {
     use RefreshDatabase;
-    protected $seed = true;
+
+     protected $seed = true;
 
     /**
      * A basic unit test example.
@@ -22,7 +24,9 @@ class JobApplicationSubmitTest extends TestCase
     public function test_if_application_submit_is_stored(): void
     {
 
-        $userJobId=UserJob::inRandomOrder()->first()->id;
+        // $userJobId=UserJob::inRandomOrder()->first()->id;
+        $user = User::factory(10)->create();
+        $userJobId = UserJob::factory()->create()->id;
 
         $jobapplication = [
             'user_job_id' => $userJobId,
