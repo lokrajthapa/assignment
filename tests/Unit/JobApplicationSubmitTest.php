@@ -24,7 +24,7 @@ class JobApplicationSubmitTest extends TestCase
     public function test_if_application_submit_is_stored(): void
     {
 
-        // $userJobId=UserJob::inRandomOrder()->first()->id;
+
         $user = User::factory(10)->create();
         $userJobId = UserJob::factory()->create()->id;
 
